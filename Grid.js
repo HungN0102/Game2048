@@ -24,6 +24,22 @@ export default class Grid {
     randomEmptyCell() {
         return this.#emptyCells()[Math.floor(Math.random()*gridSize*gridSize)]
     }
+
+    cellsByColumn() {
+        return this.#cells.reduce((cellGrid, cell) => {
+            cellGrid[cell.x] = cellGrid[cell.x] || []
+            cellGrid[cell.x][cell.y] = cell 
+            return cellGrid
+        }, [])
+    }
+
+    cellsByRow() {
+        return this.#cells.reduce((cellGrid, cell) => {
+            cellGrid[cell.y] = cellGrid[cell.y] || []
+            cellGrid[cell.y][cell.x] = cell 
+            return cellGrid
+        }, [])
+    }
 }
 
 class Cell {
@@ -31,6 +47,14 @@ class Cell {
     #x
     #y
     #tile
+
+    get x() {
+        return this.#x
+    }
+    
+    get y() {
+        return this.#y
+    }
 
     constructor(cellElement, x, y) {
         this.#cellElement = cellElement
