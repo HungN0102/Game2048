@@ -7,7 +7,8 @@ export default class Tile {
     constructor(tileContainer, value = Math.random() >= .5 ? 2:4) {
         this.#tileElement = document.createElement('div')
         this.#tileElement.classList.add('tile')
-        tileContainer.appendChild('div')
+        tileContainer.append(this.#tileElement)
+        this.value = value
         this.#value = value
     }
 
@@ -35,7 +36,7 @@ export default class Tile {
 
     set value(v) {
         this.#value = v
-        this.#tileElement.textContent = v
+        this.#tileElement.innerText = v
         const power = Math.log2(v)
         const backgroundLightness = 100 - power * 9
         this.#tileElement.style.setProperty(
@@ -46,6 +47,5 @@ export default class Tile {
             "--text-lightness",
             `${backgroundLightness <= 50 ? 90 : 10}%`
         )
-        
     }
 }

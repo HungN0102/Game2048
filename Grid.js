@@ -16,23 +16,43 @@ export default class Grid {
             )
         })
     }
+
+    #emptyCells() {
+        return this.#cells.filter(cell => cell.tile == null)
+    }
+
+    randomEmptyCell() {
+        return this.#emptyCells()[Math.floor(Math.random()*gridSize*gridSize)]
+    }
 }
 
 class Cell {
     #cellElement
     #x
-    #y 
+    #y
+    #tile
 
     constructor(cellElement, x, y) {
         this.#cellElement = cellElement
         this.#x = x 
         this.#y = y 
     }
+
+    get tile() {
+        return this.#tile
+    }
+
+    set tile(node) {
+        this.#tile = node
+        if (node == null) return
+        this.#tile.x = this.#x
+        this.#tile.y = this.#y
+    }
 }
 
 function createCellElements(gridElement) {
     const cells = []
-    for (let i=0; i<= gridSize*gridSize; i++) {
+    for (let i=0; i< gridSize*gridSize; i++) {
         const cell = document.createElement('div')
         cell.classList.add('cell')
         cells.push(cell)
