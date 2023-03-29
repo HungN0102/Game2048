@@ -36,23 +36,42 @@ function handleInput(e) {
 }
 
 function moveUp() {
-    console.log('Arrow Up')
+    moveTiles(grid.cellsByColumn())
 }
 
 function moveDown() {
-    console.log('Arrow Down')
+    moveTiles(grid.cellsByColumn().map(cells => [...cells].reverse()))
 }
 
 function moveLeft() {
-    console.log('Arrow Left')
+    moveTiles(grid.cellsByRow())
 }
 
 function moveRight() {
-    console.log('Arrow Right')
+    moveTiles(grid.cellsByRow().map(cells => [...cells].reverse()))
 }
 
-function moveTiles() {
-    
-}
+function moveTiles(cells) {
+    cells.forEach(group => {
+        for (let i=1; i< group.length; i++) {
+            const cell = group[i]
+            let lastValidCell = null
 
-console.log(grid.cellsByRow())
+            if (cell.tile == null) continue
+            for (let j=i-1; j>= 0; j--) {
+                const moveToCell = group[j]
+                if (!moveToCell.canAccept(cell.tile)) continue
+                lastValidCell = moveToCell
+            }
+
+            if (lastValidCell != null) {
+                if (lastValidCell.tile != null) {
+                    lastValidCell.mergeTile = cell.tile 
+                } else {
+                    lastValidCell.tile = cell.tile
+                }
+                cell.tile = null
+            }
+        }
+    })
+}

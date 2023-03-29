@@ -47,6 +47,13 @@ class Cell {
     #x
     #y
     #tile
+    #mergeTile 
+
+    constructor(cellElement, x, y) {
+        this.#cellElement = cellElement
+        this.#x = x 
+        this.#y = y 
+    }
 
     get x() {
         return this.#x
@@ -56,14 +63,16 @@ class Cell {
         return this.#y
     }
 
-    constructor(cellElement, x, y) {
-        this.#cellElement = cellElement
-        this.#x = x 
-        this.#y = y 
-    }
-
     get tile() {
         return this.#tile
+    }
+
+    get mergeTile() {
+        return this.#mergeTile
+    }
+
+    set mergetile(tile) {
+        this.#mergeTile = tile
     }
 
     set tile(node) {
@@ -71,6 +80,10 @@ class Cell {
         if (node == null) return
         this.#tile.x = this.#x
         this.#tile.y = this.#y
+    }
+
+    canAccept(newTile) {
+        return  (this.tile == null) || (this.mergeTile == null && this.tile.value == newTile.value)
     }
 }
 
