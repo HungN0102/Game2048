@@ -18,19 +18,35 @@ async function handleInput(e) {
 
     switch (keyUsed) {
         case 'ArrowUp':
+            if (!canMoveUp()) {
+                setupInput()
+                return
+            }
             await moveUp()
             break
         case 'ArrowDown':
+            if (!canMoveDown()) {
+                setupInput()
+                return
+            }
             await moveDown()
             break
         case 'ArrowLeft':
+            if (!canMoveLeft()) {
+                setupInput()
+                return
+            }
             await  moveLeft()
             break
         case 'ArrowRight':
+            if (!canMoveRight()) {
+                setupInput()
+                return
+            }
             await  moveRight()
             break
         default:
-             setupInput()
+            setupInput()
             return
     }
     grid.cells.forEach(cell => {cell.mergeTiles()})
@@ -83,4 +99,30 @@ async function moveTiles(cells) {
             return promises
         })
     )
+}
+
+function canMove(cellArray) {
+    return cellArray.some(group => {
+        return group.some((cell,index) => {
+            if (index === 0) return false
+            if (cell.tile == null) return false 
+            return (group[index-1].canAccept(cell.tile))
+        })
+    })
+}
+
+function canMoveUp() {
+    return canMove(grid.cellsByColumn)
+}
+
+function canMoveDown() {
+    return canMove(grid.cellsByColumn.map(cells => [...cells].reverse()))
+}
+
+function canMoveLeft() {
+    return canMove(grid.cellsByRow)
+}
+
+function canMoveRight() {
+    return canMove(grid.cellsByRow.map(cells => [...cells].reverse()))
 }
