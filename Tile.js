@@ -48,4 +48,8 @@ export default class Tile {
             `${backgroundLightness <= 50 ? 90 : 10}%`
         )
     }
+
+    remove() {
+        this.#tileElement.remove()
+    }
 }

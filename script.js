@@ -31,24 +31,28 @@ function handleInput(e) {
             break
         default:
             setupInput()
+            return
     }
+    grid.cells.forEach(cell => {cell.mergeTiles()})
+    grid.randomEmptyCell().tile = new Tile(gameBoard)
+
     setupInput()
 }
 
 function moveUp() {
-    moveTiles(grid.cellsByColumn())
+    return moveTiles(grid.cellsByColumn)
 }
 
 function moveDown() {
-    moveTiles(grid.cellsByColumn().map(cells => [...cells].reverse()))
+    return moveTiles(grid.cellsByColumn.map(cells => [...cells].reverse()))
 }
 
 function moveLeft() {
-    moveTiles(grid.cellsByRow())
+    return moveTiles(grid.cellsByRow)
 }
 
 function moveRight() {
-    moveTiles(grid.cellsByRow().map(cells => [...cells].reverse()))
+    return moveTiles(grid.cellsByRow.map(cells => [...cells].reverse()))
 }
 
 function moveTiles(cells) {
@@ -60,7 +64,7 @@ function moveTiles(cells) {
             if (cell.tile == null) continue
             for (let j=i-1; j>= 0; j--) {
                 const moveToCell = group[j]
-                if (!moveToCell.canAccept(cell.tile)) continue
+                if (!moveToCell.canAccept(cell.tile)) break
                 lastValidCell = moveToCell
             }
 

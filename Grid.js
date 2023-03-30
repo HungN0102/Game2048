@@ -1,31 +1,24 @@
-const gridSize = 4
-const gridGap = 2
-const cellSize = 20
+const GRID_SIZE = 4;
+const CELL_SIZE = 20;
+const CELL_GAP = 1;
 
 export default class Grid {
-    #cells 
+    #cells
+
     constructor(gridElement) {
-        gridElement.style.setProperty('--grid_size', gridSize)
-        gridElement.style.setProperty('--grid_gap', `${gridGap}vmin`)
-        gridElement.style.setProperty('--cell_size', `${cellSize}vmin`)
+        gridElement.style.setProperty("--grid-size",GRID_SIZE)
+        gridElement.style.setProperty('--cell-size',`${CELL_SIZE}vmin`)
+        gridElement.style.setProperty('--cell-gap',`${CELL_GAP}vmin`)
         this.#cells = createCellElements(gridElement).map((cellElement, index) => {
             return new Cell(
                 cellElement,
-                index % gridSize,
-                Math.floor(index / gridSize)
+                index % GRID_SIZE,
+                Math.floor(index / GRID_SIZE)
             )
         })
     }
 
-    #emptyCells() {
-        return this.#cells.filter(cell => cell.tile == null)
-    }
-
-    randomEmptyCell() {
-        return this.#emptyCells()[Math.floor(Math.random()*gridSize*gridSize)]
-    }
-
-    cellsByColumn() {
+    get cellsByColumn() {
         return this.#cells.reduce((cellGrid, cell) => {
             cellGrid[cell.x] = cellGrid[cell.x] || []
             cellGrid[cell.x][cell.y] = cell 
@@ -33,12 +26,25 @@ export default class Grid {
         }, [])
     }
 
-    cellsByRow() {
+    get cellsByRow() {
         return this.#cells.reduce((cellGrid, cell) => {
             cellGrid[cell.y] = cellGrid[cell.y] || []
             cellGrid[cell.y][cell.x] = cell 
             return cellGrid
         }, [])
+    }
+
+
+    get cells() {
+        return this.#cells
+    }
+
+    get #emptyCells() {
+        return this.#cells.filter(cell => cell.tile == null)
+    }
+
+    randomEmptyCell() {
+        return this.#emptyCells[Math.floor(Math.random()*this.#emptyCells.length)]
     }
 }
 
@@ -71,8 +77,11 @@ class Cell {
         return this.#mergeTile
     }
 
-    set mergetile(tile) {
-        this.#mergeTile = tile
+    set mergeTile(node) {
+        this.#mergeTile = node
+        if (node == null) return
+        this.#tile.x = this.#x
+        this.#tile.y = this.#y
     }
 
     set tile(node) {
@@ -85,11 +94,19 @@ class Cell {
     canAccept(newTile) {
         return  (this.tile == null) || (this.mergeTile == null && this.tile.value == newTile.value)
     }
+
+    mergeTiles() {
+        if (this.tile == null) return
+        if (this.mergeTile == null) return 
+        this.tile.value = this.mergeTile.value + this.tile.value 
+        this.mergeTile.remove()
+        this.mergeTile = null
+    }
 }
 
 function createCellElements(gridElement) {
     const cells = []
-    for (let i=0; i< gridSize*gridSize; i++) {
+    for (let i=0; i< GRID_SIZE*GRID_SIZE; i++) {
         const cell = document.createElement('div')
         cell.classList.add('cell')
         cells.push(cell)
