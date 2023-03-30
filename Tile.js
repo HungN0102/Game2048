@@ -52,4 +52,10 @@ export default class Tile {
     remove() {
         this.#tileElement.remove()
     }
+
+    waitForTransition() {
+        return new Promise(resolve => {
+            this.#tileElement.addEventListener('transitionend', resolve, {once: true})
+        })
+    }
 }

@@ -59,7 +59,7 @@ body {
     );
     background-color: hsl(200,50%,var(--background-lightness));
     animation: show 200ms;
-    transition: 1000ms;
+    transition: 100ms;
 }
 
 @keyframes show {

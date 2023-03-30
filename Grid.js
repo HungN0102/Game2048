@@ -61,6 +61,10 @@ class Cell {
         this.#y = y 
     }
 
+    get tile() {
+        return this.#tile
+    }
+
     get x() {
         return this.#x
     }
@@ -69,19 +73,15 @@ class Cell {
         return this.#y
     }
 
-    get tile() {
-        return this.#tile
-    }
-
     get mergeTile() {
         return this.#mergeTile
     }
 
     set mergeTile(node) {
         this.#mergeTile = node
-        if (node == null) return
-        this.#tile.x = this.#x
-        this.#tile.y = this.#y
+        if (node === null) return
+        this.#mergeTile.x = this.#x
+        this.#mergeTile.y = this.#y
     }
 
     set tile(node) {
@@ -91,16 +91,15 @@ class Cell {
         this.#tile.y = this.#y
     }
 
-    canAccept(newTile) {
-        return  (this.tile == null) || (this.mergeTile == null && this.tile.value == newTile.value)
-    }
-
     mergeTiles() {
-        if (this.tile == null) return
-        if (this.mergeTile == null) return 
-        this.tile.value = this.mergeTile.value + this.tile.value 
+        if (this.tile == null || this.mergeTile == null) return
+        this.tile.value = this.tile.value + this.mergeTile.value 
         this.mergeTile.remove()
         this.mergeTile = null
+    }
+
+    canAccept(tile) {
+        return (this.tile == null) || (this.mergeTile == null && tile.value == this.tile.value)
     }
 }
 
