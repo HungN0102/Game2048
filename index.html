@@ -8,7 +8,44 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div id="game-board">
+        <div class="container">
+            <div class="intro-container">
+                <div class="left-intro_container">
+                    <div class="game-title">
+                        <h1>2048</h1>
+                    </div>
+                    <div class="description">
+                        <div>Join the tiles, get to <b class="game-name">2048!</b></div>
+                        <div>
+                            <span class="guidance">How to play!</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-intro_container">
+                    <div class="game-scores">
+                        <div class="game-scores_container">
+                            <div class="game-scores_container_title">
+                                Score
+                            </div>
+                            <div id="current-best" class="game-scores_container_score">
+                                0
+                            </div>
+                        </div>
+                        <div class="game-scores_container">
+                            <div class="game-scores_container_title">
+                                Best
+                            </div>
+                            <div id="total-best" class="game-scores_container_score">
+                                0
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a id="btn-new-game">New Game</a>
+                    </div>
+                </div>
+            </div>
+            <div id="game-board"></div>
         </div>
         <script src="script.js" type="module"></script>
     </body>

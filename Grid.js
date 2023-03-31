@@ -1,14 +1,15 @@
 const GRID_SIZE = 4;
-const CELL_SIZE = 20;
-const CELL_GAP = 1;
+const CELL_SIZE = 15;
+const CELL_GAP = 2;
 
 export default class Grid {
     #cells
+    #points
 
     constructor(gridElement) {
-        gridElement.style.setProperty("--grid-size",GRID_SIZE)
-        gridElement.style.setProperty('--cell-size',`${CELL_SIZE}vmin`)
-        gridElement.style.setProperty('--cell-gap',`${CELL_GAP}vmin`)
+        gridElement.style.setProperty("--grid_size",GRID_SIZE)
+        gridElement.style.setProperty('--cell_size',`${CELL_SIZE}vmin`)
+        gridElement.style.setProperty('--grid_gap',`${CELL_GAP}vmin`)
         this.#cells = createCellElements(gridElement).map((cellElement, index) => {
             return new Cell(
                 cellElement,
@@ -34,6 +35,11 @@ export default class Grid {
         }, [])
     }
 
+    get points() {
+        return this.#cells.reduce((aggregate, cell) => {
+            return aggregate + cell.points
+        }, 0)
+    }
 
     get cells() {
         return this.#cells
@@ -46,6 +52,13 @@ export default class Grid {
     randomEmptyCell() {
         return this.#emptyCells[Math.floor(Math.random()*this.#emptyCells.length)]
     }
+
+    resetBoard() {
+        return this.cells.forEach(cell => {
+            cell.removeTile()
+            cell.points = 0
+        })
+    }
 }
 
 class Cell {
@@ -53,12 +66,14 @@ class Cell {
     #x
     #y
     #tile
-    #mergeTile 
+    #mergeTile
+    #points 
 
     constructor(cellElement, x, y) {
         this.#cellElement = cellElement
         this.#x = x 
         this.#y = y 
+        this.#points = 0
     }
 
     get tile() {
@@ -91,15 +106,34 @@ class Cell {
         this.#tile.y = this.#y
     }
 
+    get points() {
+        return this.#points
+    }
+
+    set points(p) {
+        this.#points = p
+    }
+
+    set addPoints(p) {
+        this.#points = this.#points + p
+    }
+
     mergeTiles() {
         if (this.tile == null || this.mergeTile == null) return
         this.tile.value = this.tile.value + this.mergeTile.value 
         this.mergeTile.remove()
         this.mergeTile = null
+        this.addPoints = this.tile.value
     }
 
     canAccept(tile) {
         return (this.tile == null) || (this.mergeTile == null && tile.value == this.tile.value)
+    }
+
+    removeTile() {
+        if (this.tile == null) return
+        this.tile.remove()
+        this.tile = null
     }
 }
 

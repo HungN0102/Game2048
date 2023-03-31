@@ -2,6 +2,9 @@ import Grid from "./Grid.js"
 import Tile from "./Tile.js"
 
 const gameBoard = document.querySelector('#game-board')
+const currentBest = document.querySelector('#current-best')
+const totalBest = document.querySelector('#total-best')
+
 const grid = new Grid(gameBoard)
 
 grid.randomEmptyCell().tile = new Tile(gameBoard)
@@ -10,6 +13,8 @@ grid.randomEmptyCell().tile = new Tile(gameBoard)
 setupInput()
 
 function setupInput() {
+    currentBest.textContent = grid.points
+    totalBest.textContent = Math.max(grid.points, totalBest.textContent)
     window.addEventListener('keydown', handleInput, {once: true})
 }
 
@@ -126,3 +131,16 @@ function canMoveLeft() {
 function canMoveRight() {
     return canMove(grid.cellsByRow.map(cells => [...cells].reverse()))
 }
+
+
+
+// Reset Game
+
+const btn = document.querySelector('#btn-new-game')
+btn.addEventListener('click', () => {
+    currentBest.textContent = 0
+    grid.resetBoard()
+
+    grid.randomEmptyCell().tile = new Tile(gameBoard)
+    grid.randomEmptyCell().tile = new Tile(gameBoard)
+})

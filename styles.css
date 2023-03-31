@@ -6,13 +6,99 @@
     box-sizing: border-box;
     font-family: Arial;
 }
+/* BODY */
 
 body {
-    background-color: #333;
+    padding-top: 2rem;
+    background-color: rgb(250,248,239);
     display: flex;
     justify-content: center;
     align-content: center;
 }
+
+/* INTRO */
+
+.intro-container {
+    display: flex;
+    margin-bottom: 50px;
+    justify-content: space-between;
+}
+
+/* INTRO LEFT  */
+.game-title {
+    font-size: 40px;
+    color: #776e65;
+}
+
+.game-name {
+    color: #776e65;
+}
+
+.description {
+    display: flex;
+    flex-direction: column; 
+    color: #776e65;   
+}
+
+.guidance {
+    display: inline-block;
+    font-weight: 900;
+    border-bottom: 1px solid black;
+    color: #776e65;
+}
+
+/* INTRO RIGHT */
+.right-intro_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: right;
+}
+
+.game-scores {
+    display: flex;
+}
+
+.game-scores_container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: rgb(187, 173, 160);
+    border-radius: 2px;
+    padding: 5px 20px;
+    margin-left: 5px;
+    width: 100px;
+}
+
+.game-scores_container_title {
+    font-size: 16px;
+    color: rgb(238, 228, 216);
+    margin-bottom: 5px;
+
+}
+
+.game-scores_container_score {
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+#btn-new-game,
+#btn-new-game:link,
+#btn-new-game:visited {
+    font-size: 20px;
+    color: white;
+    background-color: rgb(143,122,102);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#btn-new-game:hover {
+    background-color: rgb(105, 84, 65);
+}
+
+/* GAME BOARD */
 
 #game-board {
     --grid_size: 4;
@@ -23,15 +109,16 @@ body {
     grid-template-columns: repeat(var(--grid_size), var(--cell_size));
     gap: var(--grid_gap);
     padding: var(--grid_gap);
-    background-color: rgb(191, 189, 189);
+    border-radius: 5px;
+    background-color: rgb(187, 173, 160);
     position: relative;
     
     font-size: 7.5vmin;
 }
 
 .cell {
-    background-color: grey;
-    border-radius: 1vmin;
+    background-color: rgb(205,193,180);
+    border-radius: 2px;
 }
 
 .tile {
@@ -44,7 +131,7 @@ body {
     height: var(--cell_size); 
     width: var(--cell_size);
     position: absolute;
-    border-radius: 1vmin;
+    border-radius: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +146,7 @@ body {
     );
     background-color: hsl(200,50%,var(--background-lightness));
     animation: show 200ms;
-    transition: 100ms;
+    transition: 150ms;
 }
 
 @keyframes show {
